@@ -32,15 +32,18 @@
             homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
         -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/chutoro_fish_icon.ico" />
     <link
       rel="apple-touch-icon"
       sizes="76x76"
-      href="%PUBLIC_URL%/apple-icon.png"
+      href="%PUBLIC_URL%/chutoro_fish_icon.ico"
     />
     <!--
             Notice the use of %PUBLIC_URL% in the tags above.
             It will be replaced with the URL of the `public` folder during the build.
+
+
+
             Only files inside the `public` folder can be referenced from the HTML.
 
             Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
@@ -58,7 +61,23 @@
       href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
     />
 
-    <title>Paper Dashboard React by Creative Tim</title>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="css/tail.datetime-default.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/emailjs-com@2.3.2/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("user_lrZKwzO0OBMU21PwIaDLD"); // Obtain your user ID at the dashboard https://dashboard.emailjs.com/integration
+      })();
+    </script>
+
+    <title>Chutoro Restaurants</title>
   </head>
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
@@ -76,8 +95,18 @@
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-functions.js"></script>
+
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        tail.DateTime(".tail-datetime-field", {
+          /* Your Options */
+        });
+      });
+    </script>
   </body>
 </html>

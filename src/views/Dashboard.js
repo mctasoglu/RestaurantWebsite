@@ -325,7 +325,7 @@ class Dashboard extends React.Component {
     return (
       <>
         <div className="content">
-          <div className="calendar" style={{ minWidth: "1200px" }}>
+          <div className="calendar">
             {this.renderHeader()}
             {this.renderDays()}
           </div>

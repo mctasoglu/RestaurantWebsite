@@ -39,6 +39,8 @@ import {
 import routes from "routes.js";
 import subRoutes from "subRoutes";
 
+import firebase from "firebase.js";
+
 var lastScroll = 0;
 
 class Header extends React.Component {
@@ -75,16 +77,14 @@ class Header extends React.Component {
   }
 
   getParentWidth = () => {
-    let parentElem = document.getElementsByClassName("main-panel ps");
-    let targetElem = document.getElementsByClassName(
-      "navbar-absolute navbar navbar-expand-lg"
-    );
+    let sideWidth = document
+      .getElementsByClassName("sidebar")[0]
+      .getBoundingClientRect().width;
+    let sideBar = document.getElementsByClassName("sidebar")[0];
 
-    if (typeof parentElem[0] != "undefined") {
-      let parentWidth = parentElem[0].getBoundingClientRect().width;
-      targetElem[0].style.width = parentWidth + "px";
-      this.setState({ parentWidth: parentWidth + "px" });
-    }
+    let newWidth = window.innerWidth - sideWidth;
+
+    this.setState({ parentWidth: newWidth });
   };
 
   scrollFunction = () => {
@@ -127,11 +127,20 @@ class Header extends React.Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.getParentWidth.bind(this));
+
+    let sideWidth = document
+      .getElementsByClassName("sidebar")[0]
+      .getBoundingClientRect().width;
+
+    let newWidth = window.innerWidth - sideWidth;
+
+    this.setState({ parentWidth: newWidth });
+
     window.addEventListener("scroll", this.scrollFunction.bind(this));
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.getParentWidth.bind(this));
+    //window.removeEventListener("resize", this.getParentWidth.bind(this));
     window.removeEventListener("scroll", this.scrollFunction.bind(this));
   }
   componentDidUpdate(e) {
@@ -156,10 +165,11 @@ class Header extends React.Component {
         }
         style={{
           backgroundColor: "#f4f3ef",
-          zIndex: "10",
-          margin: "auto",
+          //zIndex: "10",
           position: "fixed",
+          margin: "auto",
           width: this.state.parentWidth,
+
           borderBottom: "1px solid #ddd",
         }}
       >
@@ -196,20 +206,34 @@ class Header extends React.Component {
                     width="2em"
                     height="2em"
                     viewBox="0 0 16 16"
-                    class="bi bi-bell"
-                    fill="#Ff7197"
+                    class="bi bi-power"
+                    fill="#FF7197"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z" />
                     <path
                       fill-rule="evenodd"
-                      d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"
+                      d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z"
                     />
+                    <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" />
                   </svg>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem tag="a" href="/">
-                    Notifications
+                  <DropdownItem
+                    tag="a"
+                    href="/"
+                    onClick={(e) => {
+                      firebase
+                        .auth()
+                        .signOut()
+                        .then(function () {
+                          // Sign-out successful.
+                        })
+                        .catch(function (error) {
+                          // An error happened.
+                        });
+                    }}
+                  >
+                    Log Out
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

@@ -9,9 +9,11 @@ import { Nav, NavLink } from "reactstrap";
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
-import TableList from "views/Tables.js";
+import SignUp from "views/SignUp.js";
 import Maps from "views/Map.js";
 import UserPage from "views/User.js";
+import Profile from "views/Profile.js";
+import CurrentProducts from "views/CurrentProducts.js";
 
 var routes = [
   {
@@ -42,7 +44,7 @@ var routes = [
       </svg>
     ),
     component: Dashboard,
-    layout: "/admin",
+    layout: "/chutoro.com/restaurant",
     subList: <ul></ul>,
     hasSublist: false,
   },
@@ -65,13 +67,13 @@ var routes = [
       </svg>
     ),
     component: Icons,
-    layout: "/admin",
+    layout: "/chutoro.com/restaurant",
     subList: (
       <div>
         <ul className="list-group">
           <li className="m-2">
             <Link
-              to="/admin/pending-orders"
+              to="/chutoro.com/restaurant/pending-orders"
               className="nav-link"
               activeClassName="active"
               style={{ color: "white", margin: "0px", padding: "0px" }}
@@ -82,7 +84,7 @@ var routes = [
 
           <li className="m-2">
             <Link
-              to="/admin/completed-orders"
+              to="/chutoro.com/restaurant/completed-orders"
               className="nav-link"
               activeClassName="active"
               style={{ color: "white", margin: "0px", padding: "0px" }}
@@ -119,24 +121,13 @@ var routes = [
         <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z" />
       </svg>
     ),
-    component: Maps,
-    layout: "/admin",
+    component: CurrentProducts,
+    layout: "/chutoro.com/restaurant",
     subList: (
       <ul className="list-group">
         <li className="m-2">
           <Link
-            to="/admin/current-meals"
-            className="nav-link"
-            activeClassName="active"
-            style={{ color: "white", margin: "0px", padding: "0px" }}
-          >
-            <p>Current Products</p>
-          </Link>
-        </li>
-
-        <li className="m-2">
-          <Link
-            to="/admin/add-a-new-product"
+            to="/chutoro.com/restaurant/add-a-new-product"
             className="nav-link"
             activeClassName="active"
             style={{ color: "white", margin: "0px", padding: "0px" }}
@@ -146,7 +137,7 @@ var routes = [
         </li>
         <li className="m-2">
           <Link
-            to="/admin/add-a-new-plan"
+            to="/chutoro.com/restaurant/add-a-new-plan"
             className="nav-link"
             activeClassName="active"
             style={{ color: "white", margin: "0px", padding: "0px" }}
@@ -177,7 +168,7 @@ var routes = [
       </svg>
     ),
     component: Notifications,
-    layout: "/admin",
+    layout: "/chutoro.com/restaurant",
     subList: <ul></ul>,
     hasSublist: false,
   },
@@ -201,7 +192,7 @@ var routes = [
       </svg>
     ),
     component: Typography,
-    layout: "/admin",
+    layout: "/chutoro.com/restaurant",
     subList: <ul></ul>,
     hasSublist: false,
   },
@@ -229,12 +220,12 @@ var routes = [
         />
       </svg>
     ),
-    component: UserPage,
-    layout: "/admin",
+    component: Profile,
+    layout: "/chutoro.com/restaurant",
     subList: <ul></ul>,
     hasSublist: false,
   },
-  {
+  /* {
     path: "/tables",
     name: "Log Out",
     icon: (
@@ -253,11 +244,11 @@ var routes = [
         <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" />
       </svg>
     ),
-    component: TableList,
+    component: "",
     layout: "/admin",
     subList: <ul></ul>,
     hasSublist: false,
-  },
+  }, */
   /*{
     path: "/typography",
     name: "Typography",

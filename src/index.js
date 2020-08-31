@@ -38,8 +38,12 @@ const hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Redirect to="/admin/dashboard" />
+      <Route
+        path="/chutoro.com"
+        render={(props) => <AdminLayout {...props} />}
+      />
+
+      <Redirect to="/chutoro.com/restaurant/signin" />
     </Switch>
   </Router>,
   document.getElementById("root")
