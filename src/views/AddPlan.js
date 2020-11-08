@@ -153,27 +153,34 @@ class User extends React.Component {
       ],
     };
 
+    //Grabs meal information from restaurant
     function init(obj) {
       name = "Mola";
 
+      //First, checks the Firebase document of the restaurant
       var docRef = db.collection("Restaurants").doc(`${name}`);
 
+      //Initialize a list
       var productInstances = [];
 
       //Convert each document in the collection 'Products' into instances of the Product Class. More information can be found in components/Classes/ProductClass.js
       docRef
         .collection("Products")
+        //Converts each Firebase document into the Product Class thanks to the function mealConverter that does the converting
         .withConverter(mealConverter)
         .get()
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
             var product = doc.data();
             // doc.data() is never undefined for query doc snapshots
+
+            //Pushes each new instance into the product Instances array
             productInstances.push(product);
           });
         });
 
-      //Due to fetching operation being asynchronous, a Promise is returned where after 2 seconds, the list of all the products is returned.
+      /*Due to fetching operation being asynchronous, a Promise is returned where after 1 second, the list of all the products is returned. 
+      Subsequent functions must wait until the promise is delivered*/
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(productInstances);
@@ -183,6 +190,7 @@ class User extends React.Component {
 
     //Get all the images of the corresponding products from the Cloud Storage
     function getImages(currentProducts) {
+      //return result is an object that holds all products
       var result = {};
 
       for (let i = 0; i < currentProducts.length; i++) {
@@ -192,6 +200,7 @@ class User extends React.Component {
 
         let src = prod.imagePath;
 
+        //Obtain image from storage url
         var imgStorage = storage.ref(`${src}`);
         (function () {
           imgStorage
@@ -235,6 +244,7 @@ class User extends React.Component {
       });
     }
 
+    //Function that kicks off the asynchronous processes to fetch the data
     async function getList(obj) {
       //First, wait for the product list to be filled
       let productList = await init(obj);
@@ -250,6 +260,7 @@ class User extends React.Component {
           let names = Object.keys(dict);
           for (let j = 0; j < names.length; j++) {
             let name = names[j];
+            //To keep track of alerts
             attrs[name] = [false, 0];
           }
 
@@ -291,6 +302,7 @@ class User extends React.Component {
 
     this.renderWeeklyOptions = this.renderWeeklyOptions.bind(this);
 
+    //Call this function at the very end but still before the page is rendered so all the information will be immediately ready
     getList(this);
   }
 
@@ -325,6 +337,7 @@ class User extends React.Component {
     }
   };
 
+  //
   renderAttributes = () => {};
 
   //This is to display both date tabs

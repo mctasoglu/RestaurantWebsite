@@ -105,11 +105,11 @@ class Sidebar extends React.Component {
                     to={prop.layout + prop.path}
                     className="nav-link"
                     activeClassName="active"
-                    style={{ color: "white" }}
+                    style={{ color: "white", fontFamily: "Montserrat" }}
                     onClick={this.showMenu}
                   >
                     {prop.icon}
-                    <p
+                    <b
                       style={{
                         display: "inline-block",
                         marginLeft: "10px",
@@ -118,7 +118,7 @@ class Sidebar extends React.Component {
                       }}
                     >
                       {prop.name}
-                    </p>
+                    </b>
                   </NavLink>
 
                   <div

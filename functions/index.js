@@ -13,6 +13,7 @@ require("dotenv").config();
 
 const { SENDER_EMAIL, SENDER_PASSWORD } = process.env;
 
+//Sends email to accepted restaurant partners
 exports.sendEmailNotification = functions.firestore
   .document("Signed Restaurants/{docId}")
   .onCreate((snap, ctx) => {
@@ -46,6 +47,7 @@ exports.sendEmailNotification = functions.firestore
   });
 
 exports.setNewUserInfo = functions.https.onCall((data, context) => {
+  //Creates a new page for the registered restaurant in Firestore
   return admin
     .firestore()
     .collection("Restaurants")
@@ -64,6 +66,7 @@ exports.setNewUserInfo = functions.https.onCall((data, context) => {
 });
 
 exports.removeTempUser = functions.https.onCall((data, context) => {
+  //Removes information of the temporary account
   const doc = admin
     .firestore()
     .collection("Signed Restaurants")

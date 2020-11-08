@@ -1,21 +1,5 @@
-/*!
+//Registration page when new restaurants sign up
 
-=========================================================
-* Paper Dashboard React - v1.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 // react plugin used to create google maps
 import {
@@ -41,6 +25,7 @@ require("firebase/functions");
 
 let db = firebase.firestore();
 
+//Regexp for setting passwords: requires at least 6 characters, one special, and one Uppercase
 const passRegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=\-<>\,\.\/?\\{}\[\]]).{6,}$/;
 
 class Register extends React.Component {
@@ -58,6 +43,7 @@ class Register extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  //Want to create url for uploaded image in registration
   handleChange(event) {
     this.setState({
       file: URL.createObjectURL(event.target.files[0]),
@@ -65,9 +51,10 @@ class Register extends React.Component {
     this.setState({ image: event.target.files[0] });
   }
 
+  //Before allowing registration, need to make sure that all input fields are properly filled
   registerUser = (e) => {
     let alerts = this.state.alerts;
-    let vals = Object.values(alerts);
+    let vals = Object.values(alerts); //This is to check whether any alerts are activated
     let email = this.props.email;
     let name = this.props.name;
     let num = this.props.phoneNumber;
@@ -76,11 +63,13 @@ class Register extends React.Component {
     let address = this.props.address;
     let src = this.state.file;
     let isValid = vals.filter((c) => c === true);
-    console.log(isValid);
-    console.log(name);
+    console.log(this.state.file);
+
+    //If no image is uploaded, must re-prompt user to upload an image
     if (this.state.file === null) {
       alert("Upload your restaurant logo");
     } else if (isValid.length !== 0) {
+      // Check if alerts for password and re-enter password
       alert("Set a password and confirm it for your new account");
     } else if (
       alerts["confirm-password"] === true &&
@@ -89,6 +78,7 @@ class Register extends React.Component {
         ? this.state.values["Confirm"]
         : ""
     ) {
+      //Want to make sure that passwords match
       alert("Make sure passwords match");
     } else if (isValid.length !== 0) {
       alert(
@@ -96,12 +86,14 @@ class Register extends React.Component {
       );
     } else {
       let img = this.state.image;
+      //Want to upload image into Firebase storage
       const uploadImage = storage
         .ref(`images/${name}/logo/${img.name}`)
         .put(img);
       let imgPath = `images/${name}/logo/${img.name}`;
       let password = this.state.values["Password"];
 
+      //Use firebase auth to create new user
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
@@ -109,19 +101,24 @@ class Register extends React.Component {
           const user = firebase.auth().currentUser;
           console.log(user);
           user.updateProfile({
+            //Update user information with Firebase Authentication
             displayName: name,
             phoneNumber: num,
             photoUrl: src,
           });
         })
+        .catch((err) => console.log(err))
         .then(() => {
+          //HTTPS call function from Firebase Cloud Functions
           const setNewUserInfo = firebase
             .functions()
             .httpsCallable("setNewUserInfo");
           const removeTempUser = firebase
             .functions()
-            .httpsCallable("removeTempUser");
+            .httpsCallable("removeTempUser"); //Removes the temporary account used to register from the database
+
           removeTempUser({ email: email });
+          console.log("User was removed");
           setNewUserInfo({
             name: name,
             phoneNumber: num,
@@ -137,6 +134,7 @@ class Register extends React.Component {
                 (snapshot) => {},
                 (error) => {},
                 () => {
+                  //Store the uploaded image into Storage
                   storage
                     .ref(`images/${name}/logo`)
 
@@ -148,6 +146,7 @@ class Register extends React.Component {
                 }
               );
             })
+            .catch((err) => console.log(err))
             .then((result) => {
               alert("Account Created!");
             })
@@ -164,6 +163,7 @@ class Register extends React.Component {
   };
 
   verifyInput = (id, e) => {
+    //Checks to see if password and/or confirm pasword input fields are properly
     console.log(id);
     let val = e.target.value;
     var values = this.state.values;
@@ -196,6 +196,7 @@ class Register extends React.Component {
   };
 
   render() {
+    //Render page for registration. Just HTML and CSS
     return (
       <>
         <div className="content">

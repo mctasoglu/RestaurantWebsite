@@ -1,0 +1,43 @@
+.currentProductsChart {
+  overflow: auto;
+  height: 500px;
+  background-color: #8abad3;
+  border-radius: 50px;
+  padding-top: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.currentProductsChart::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-bar {
+  right: 0px;
+  top: 0px;
+  width: 10px;
+
+  z-index: 20;
+
+  position: absolute;
+  border-radius: 7px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.scroll-bar:hover {
+  cursor: pointer;
+}
+
+.thumb {
+  width: 8px;
+  margin-left: 1px;
+  position: absolute;
+  border-radius: 7px;
+  opacity: 1;
+
+  background-color: rgba(0, 0, 0, 0.55);
+}
